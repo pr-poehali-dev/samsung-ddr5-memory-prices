@@ -3,27 +3,9 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 import { Separator } from '@/components/ui/separator';
-import { Slider } from '@/components/ui/slider';
 
 const Index = () => {
   const [selectedYear, setSelectedYear] = useState('2026');
-  const [selectedMonth, setSelectedMonth] = useState(3);
-  
-  const months = [
-    { value: 0, label: 'Сейчас', price: 44200 },
-    { value: 1, label: 'Февраль', price: 42500 },
-    { value: 2, label: 'Март', price: 39000 },
-    { value: 3, label: 'Апрель', price: 38500 },
-    { value: 4, label: 'Май', price: 37800 },
-    { value: 5, label: 'Июнь', price: 36500 },
-    { value: 6, label: 'Сентябрь', price: 35000 },
-    { value: 7, label: 'Декабрь', price: 32000 },
-  ];
-
-  const currentPrice = 44200;
-  const selectedMonthData = months[selectedMonth];
-  const savings = currentPrice - selectedMonthData.price;
-  const savingsPercent = ((savings / currentPrice) * 100).toFixed(1);
 
   const priceData = [
     { month: 'Авг 2025', price: 52000 },
