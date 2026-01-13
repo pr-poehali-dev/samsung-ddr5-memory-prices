@@ -3,9 +3,27 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 import { Separator } from '@/components/ui/separator';
+import { Slider } from '@/components/ui/slider';
 
 const Index = () => {
   const [selectedYear, setSelectedYear] = useState('2026');
+  const [selectedMonth, setSelectedMonth] = useState(3);
+  
+  const months = [
+    { value: 0, label: 'Сейчас', price: 44200 },
+    { value: 1, label: 'Февраль', price: 42500 },
+    { value: 2, label: 'Март', price: 39000 },
+    { value: 3, label: 'Апрель', price: 38500 },
+    { value: 4, label: 'Май', price: 37800 },
+    { value: 5, label: 'Июнь', price: 36500 },
+    { value: 6, label: 'Сентябрь', price: 35000 },
+    { value: 7, label: 'Декабрь', price: 32000 },
+  ];
+
+  const currentPrice = 44200;
+  const selectedMonthData = months[selectedMonth];
+  const savings = currentPrice - selectedMonthData.price;
+  const savingsPercent = ((savings / currentPrice) * 100).toFixed(1);
 
   const priceData = [
     { month: 'Авг 2025', price: 52000 },
@@ -420,6 +438,95 @@ const Index = () => {
                   price-tracker'ах для модели Samsung 64GB DDR5 5600MHz.
                 </p>
               </div>
+            </div>
+          </Card>
+        </section>
+
+        <section className="mb-16 animate-fade-in" style={{ animationDelay: '0.8s' }}>
+          <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
+            <Icon name="Calculator" size={32} className="text-primary" />
+            Калькулятор экономии
+          </h2>
+          <Card className="p-8 bg-gradient-to-br from-primary/10 to-secondary/30">
+            <div className="mb-8">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-semibold text-lg">Когда вы планируете купить память?</h3>
+                <Badge variant="outline" className="text-primary border-primary">
+                  {selectedMonthData.label}
+                </Badge>
+              </div>
+              <div className="px-2 py-4">
+                <Slider
+                  value={[selectedMonth]}
+                  onValueChange={(value) => setSelectedMonth(value[0])}
+                  max={7}
+                  step={1}
+                  className="w-full"
+                />
+                <div className="flex justify-between mt-2 text-xs text-muted-foreground">
+                  <span>Сейчас</span>
+                  <span>Декабрь 2026</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="bg-background p-6 rounded-lg text-center">
+                <p className="text-sm text-muted-foreground mb-2">Текущая цена</p>
+                <p className="text-3xl font-bold text-primary">{currentPrice.toLocaleString()} ₽</p>
+              </div>
+              <div className="bg-background p-6 rounded-lg text-center">
+                <p className="text-sm text-muted-foreground mb-2">Прогноз цены</p>
+                <p className="text-3xl font-bold text-primary">
+                  {selectedMonthData.price.toLocaleString()} ₽
+                </p>
+              </div>
+              <div className="bg-background p-6 rounded-lg text-center">
+                <p className="text-sm text-muted-foreground mb-2">Экономия</p>
+                <div>
+                  <p className="text-3xl font-bold text-green-600">
+                    {savings > 0 ? `−${savings.toLocaleString()}` : '0'} ₽
+                  </p>
+                  {savings > 0 && (
+                    <p className="text-sm text-green-600 mt-1">({savingsPercent}%)</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 p-6 bg-background rounded-lg">
+              <div className="flex items-start gap-3">
+                <Icon 
+                  name={savings > 5000 ? "TrendingDown" : savings > 0 ? "Minus" : "CheckCircle"} 
+                  size={24} 
+                  className={savings > 5000 ? "text-green-600" : savings > 0 ? "text-primary" : "text-muted-foreground"} 
+                />
+                <div>
+                  <h4 className="font-semibold mb-2">
+                    {savings > 10000 
+                      ? '💰 Значительная экономия!' 
+                      : savings > 5000 
+                      ? '👍 Хорошая экономия' 
+                      : savings > 0 
+                      ? '⏳ Небольшая экономия' 
+                      : '🎯 Текущая цена'}
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    {savings > 10000 
+                      ? 'Если можете подождать до этого момента, экономия будет существенной. Однако учитывайте риск роста спроса и возможного дефицита.' 
+                      : savings > 5000 
+                      ? 'Разумный компромисс между ожиданием и экономией. В этот период обычно бывают сезонные распродажи.' 
+                      : savings > 0 
+                      ? 'Небольшая экономия, но если память нужна сейчас — лучше не откладывать покупку.' 
+                      : 'Покупка сейчас избавит вас от неопределенности и рисков будущего повышения цен.'}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 flex items-center justify-center gap-2 text-sm text-muted-foreground">
+              <Icon name="Info" size={16} />
+              <span>Прогнозы основаны на анализе рынка и могут отличаться от реальных цен</span>
             </div>
           </Card>
         </section>
